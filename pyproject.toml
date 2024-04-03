@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "django-unpoly-project"
+version = "0.1.0"
+description = "Django-Unpoly-Project est une application web développée avec Django et Unpoly, offrant une expérience utilisateur dynamique et interactive."
+authors = ["Macktireh <abdimack97@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12.2"
+django = "^5.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
