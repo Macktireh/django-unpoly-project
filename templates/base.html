@@ -7,6 +7,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:description" name="description" content="Apprends la programmation avec Python en partant de zéro avec nos formations en français sur le langage Python."/>
   <title>{% block title %}{% endblock %}</title>
 
   {% compress css %}
@@ -16,17 +17,19 @@
 
 </head>
 
-<body class="bg-gray-900">
+<body class="dark bg-gray-50/98 dark:bg-gray-800/95">
   <header>
-    {% block header %}{% endblock %}
+    {% include "partials/navbar.html" %}
   </header>
 
-  <main>
-    {% block content %}{% endblock %}
+  <main class="bg-gray-50/98 dark:bg-gray-800/95 h-svh">
+    <div class="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
+      {% block content %}{% endblock %}
+    </div>
   </main>
 
   <footer>
-    {% block footer %}{% endblock %}
+    {% include "partials/footer.html" %}
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
