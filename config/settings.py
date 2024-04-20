@@ -41,6 +41,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "compressor",
+    "colorfield",
 ]
 
 LOCAL_APPS = [
@@ -149,8 +150,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Django Compressor
 
-COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ROOT = BASE_DIR / "static"
 
 COMPRESS_ENABLED = True
 
-STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+STATICFILES_FINDERS = ("compressor.finders.CompressorFinder",)
