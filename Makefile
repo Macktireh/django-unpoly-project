@@ -33,7 +33,7 @@ coverage:
 testc: test coverage
 
 superuser:
-	poetry run python manage.py createsuperuser --email=admin@gmail.com --name=Admin --phone_number=77123456
+	poetry run python manage.py createsuperuser --email=admin@gmail.com --first_name=Admin --last_name=AD
 
 loaddata:
 	poetry run python manage.py load_data db.json
