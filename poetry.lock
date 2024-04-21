@@ -79,6 +79,20 @@ rcssmin = "1.1.1"
 rjsmin = "1.2.1"
 
 [[package]]
+name = "django-unfold"
+version = "0.22.0"
+description = "Modern Django admin theme for seamless interface development"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django_unfold-0.22.0-py3-none-any.whl", hash = "sha256:2739a256897660aa0dd768cd373dd38d178d653c674091c2dbe441d325522b8b"},
+    {file = "django_unfold-0.22.0.tar.gz", hash = "sha256:622995f6ec222d7e16c4ea5bde1f87508d25942e6bcf925ae7ead9f70b77405b"},
+]
+
+[package.dependencies]
+django = ">=3.2"
+
+[[package]]
 name = "pillow"
 version = "10.3.0"
 description = "Python Imaging Library (Fork)"
@@ -284,4 +298,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12.2"
-content-hash = "0d987108a4376bcd61e4043ed4c25e30cbbd5dd23bf87dc5d22279a4b246e29a"
+content-hash = "917cde1421fd178a60b7c72cc50dcc28523192ad74c17dfd5d5959512fe45119"
