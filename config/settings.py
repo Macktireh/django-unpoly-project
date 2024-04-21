@@ -39,6 +39,10 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
+THIRD_PARTY_APPS_BEFORE = [
+    "unfold",
+]
+
 THIRD_PARTY_APPS = [
     "compressor",
     "colorfield",
@@ -49,7 +53,7 @@ LOCAL_APPS = [
     "apps.issues",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = THIRD_PARTY_APPS_BEFORE + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 
 MIDDLEWARE = [
