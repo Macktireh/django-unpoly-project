@@ -1,1 +1,1 @@
-# django & unpoly
+# django-unpoly-project
