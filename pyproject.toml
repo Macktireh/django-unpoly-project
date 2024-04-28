@@ -1,38 +1,48 @@
-[tool.poetry]
+[project]
 name = "django-unpoly-project"
 version = "0.1.0"
 description = "Django-Unpoly-Project est une application web développée avec Django et Unpoly, offrant une expérience utilisateur dynamique et interactive."
-authors = ["Macktireh <abdimack97@gmail.com>"]
-license = "MIT"
+authors = [
+    {name = "Macktireh", email = "abdimack97@gmail.com"},
+]
+license = {text = "MIT"}
 readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "django>=5.0.4",
+    "django-colorfield>=0.11.0",
+    "django-compressor>=4.4",
+    "django-unfold>=0.22.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12.2"
-django = "^5.0.4"
-django-compressor = "^4.4"
-django-colorfield = "^0.11.0"
-django-unfold = "^0.22.0"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ruff>=0.4.2",
+]
 
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.3.5"
+[tool.pdm]
+distribution = false
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+
+[tool.pdm.scripts]
+newapp = "python manage.py startapp"
+makemigrations = "python manage.py makemigrations"
+migrate = "python manage.py migrate"
+start = "python manage.py runserver"
+createsuperuser = "python manage.py createsuperuser"
+qcluster = "python manage.py qcluster"
+qmonitor = "python manage.py qmonitor"
+qinfo = "python manage.py qinfo"
+tailwind = "npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch"
+
+mmm = {composite = ["makemigrations", "migrate"]}
+dev = {composite = ["migrate", "start"]}
 
 
 [tool.ruff]
-# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-select = ["E", "F"]
-ignore = []
-
 line-length = 120
-
-# Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
-unfixable = []
-
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
@@ -60,17 +70,16 @@ exclude = [
 
 [tool.ruff.lint]
 select = [
-  # pycodestyle
-  "E",
-  # Pyflakes
-  "F",
-  # pyupgrade
-  "UP",
-  # flake8-bugbear
-  "B",
-  # flake8-simplify
-  "SIM",
-  # isort
-  "I",
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
 ]
-
