@@ -1,40 +1,59 @@
-{% load compress %}
 {% load static %}
+{% load compress %}
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:description" name="description" content="Apprends la programmation avec Python en partant de zéro avec nos formations en français sur le langage Python." />
+    <title>
+      {% block title %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:description" name="description"
-    content="Apprends la programmation avec Python en partant de zéro avec nos formations en français sur le langage Python." />
-  <title>{% block title %}{% endblock %}</title>
+      {% endblock %}
+    </title>
 
-  {% compress css %}
-  <link rel="stylesheet" href="{% static 'src/output.css' %}">
-  {% endcompress %}
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css">
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}" />
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <link rel="stylesheet" href="{% static 'src/dracula.css' %}" />
+  </head>
 
-</head>
+  <body class="dark bg-gray-50/98 dark:bg-gray-800/95">
+    <header>
+      {% include 'partials/navbar.html' %}
+    </header>
 
-<body class="dark bg-gray-50/98 dark:bg-gray-800/95">
-  <header>
-    {% include "partials/navbar.html" %}
-  </header>
+    <main class="bg-gray-50/98 dark:bg-gray-800/95 min-h-screen root">
+      <div class="max-w-screen-xl mx-auto flex flex-col flex-wrap items-center justify-between p-4">
+        {% block content %}
 
-  <main class="bg-gray-50/98 dark:bg-gray-800/95 h-svh">
-    <div class="max-w-screen-xl mx-auto flex flex-col flex-wrap items-center justify-between p-4">
-      {% block content %}{% endblock %}
-    </div>
-  </main>
+        {% endblock %}
+      </div>
+    </main>
 
-  <footer>
-    {% include "partials/footer.html" %}
-  </footer>
+    <footer>
+      {% include 'partials/footer.html' %}
+    </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script> {% endcomment %}
+    {% comment %} <script>
+      hljs.initHighlightingOnLoad()
+    </script> {% endcomment %}
+    <script>
+      hljs.highlightAll();
+    </script>
+    
+    {% block js %}
 
+    {% endblock %}
+  </body>
 </html>

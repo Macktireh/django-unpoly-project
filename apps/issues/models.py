@@ -1,7 +1,13 @@
 from random import choice
+from typing import override
 
 from colorfield.fields import ColorField
 from django.db import models
+from django.template.defaultfilters import slugify
+from django.urls import reverse
+from mdeditor.fields import MDTextField
+
+# from martor.models import MartorField
 
 
 def generate_hex_color() -> str:
@@ -35,9 +41,19 @@ class Tag(TimestampMixin):
 
 class Issue(TimestampMixin):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, db_index=True)
-    description = models.TextField(null=True, blank=True)
-    labels = models.ManyToManyField(to=Tag, related_name="issues", db_table="issues_labels")
+    slug = models.SlugField(unique=True, max_length=255, db_index=True)
+    content = MDTextField(null=True, blank=True)
+    tags = models.ManyToManyField(to=Tag, related_name="issues", db_table="issues_tags", blank=True)
+
+    @override
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    @property
+    def get_absolute_url(self) -> str:
+        return reverse("issues:detail", kwargs={"slug": self.slug})
 
     class Meta:
         db_table = "issues"
