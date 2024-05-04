@@ -21,10 +21,13 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('martor/', include('martor.urls')),
+    path('mdeditor/', include('mdeditor.urls')),
     path("", include("apps.issues.urls")),
 ]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
 
+    urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
