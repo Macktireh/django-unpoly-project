@@ -3,7 +3,67 @@
 @tailwind utilities;
 
 @layer components {
-    .btn-primary {
-        @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
-    }
+  .btn-primary {
+    @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+  }
+}
+
+@layer components {
+  .markdown-p > h1 {
+    @apply my-4 text-2xl;
+    margin: 1.1rem 0 !important;
+    font-size: 1.6rem !important;
+    line-height: 1.5rem !important;
+    font-weight: bold;
+  };
+  .markdown-p > h2 {
+    @apply my-4 text-2xl;
+    margin: 1.1rem 0 !important;
+    font-size: 1.4rem !important;
+    line-height: 1.5rem !important;
+    font-weight: bold;
+  };
+  .markdown-p > h3 {
+    @apply my-4 text-lg;
+    margin: 1.1rem 0 !important;
+    font-size: 1.2rem !important;
+    line-height: 1.5rem !important;
+    font-weight: bold;
+  }
+  .markdown-p > h4 {
+    @apply my-4 text-lg;
+    margin: 1.1rem 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+    font-weight: bold;
+  }
+}
+
+.markdown-p > p {
+  margin: 0.8rem 0 !important;
+}
+.markdown-p > ul {
+  margin: 0.5rem 0 !important;
+  list-style: disc;
+  list-style-position: inside;
+}
+
+pre {
+  @apply py-4 font-mono overflow-x-auto rounded-2xl border-0;
+}
+
+pre > code {
+  @apply py-4 font-mono overflow-x-auto rounded-md p-16;
+  border: none !important;
+  padding: 1rem !important;
+}
+
+:not(pre) > code {
+  @apply font-mono text-lime-500 italic font-bold;
+  color: #50fa7b !important;
+}
+
+.wmd-wrapper {
+  border-radius: 10px;
+  width: 100% !important;
 }
