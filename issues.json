@@ -1,0 +1,161 @@
+[
+  {
+    "model": "issues.tag",
+    "pk": 1,
+    "fields": {
+      "created": "2024-05-01T18:03:53.099Z",
+      "updated": "2024-05-01T18:03:53.099Z",
+      "name": "bug",
+      "color": "#D73545",
+      "description": "Something isn't working"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 2,
+    "fields": {
+      "created": "2024-05-01T18:04:31.182Z",
+      "updated": "2024-05-01T19:28:54.720Z",
+      "name": "design",
+      "color": "#AF0EC3",
+      "description": "User interface design"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 3,
+    "fields": {
+      "created": "2024-05-01T18:04:48.433Z",
+      "updated": "2024-05-01T18:04:48.433Z",
+      "name": "documentation",
+      "color": "#0075CA",
+      "description": "Improvements or additions to documentation"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 4,
+    "fields": {
+      "created": "2024-05-01T18:05:15.635Z",
+      "updated": "2024-05-01T18:05:15.635Z",
+      "name": "duplicate",
+      "color": "#CFD3D7",
+      "description": "This issue or pull request already exists"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 5,
+    "fields": {
+      "created": "2024-05-01T18:05:34.704Z",
+      "updated": "2024-05-01T18:05:34.704Z",
+      "name": "enhancement",
+      "color": "#A2EEEF",
+      "description": "New feature or request"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 6,
+    "fields": {
+      "created": "2024-05-01T18:06:07.267Z",
+      "updated": "2024-05-01T18:06:07.267Z",
+      "name": "help wanted",
+      "color": "#008672",
+      "description": "Extra attention is needed"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 7,
+    "fields": {
+      "created": "2024-05-01T18:06:19.165Z",
+      "updated": "2024-05-01T18:06:19.165Z",
+      "name": "invalid",
+      "color": "#E4E669",
+      "description": "This doesn't seem right"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 8,
+    "fields": {
+      "created": "2024-05-01T18:06:52.669Z",
+      "updated": "2024-05-01T18:06:52.669Z",
+      "name": "question",
+      "color": "#7E75E3",
+      "description": "Further information is requested"
+    }
+  },
+  {
+    "model": "issues.tag",
+    "pk": 9,
+    "fields": {
+      "created": "2024-05-01T18:08:08.598Z",
+      "updated": "2024-05-01T18:08:08.598Z",
+      "name": "wontfix",
+      "color": "#6D7A77",
+      "description": "This will not be worked on"
+    }
+  },
+  {
+    "model": "issues.issue",
+    "pk": 1,
+    "fields": {
+      "created": "2024-05-01T19:09:29.253Z",
+      "updated": "2024-05-02T23:03:30.839Z",
+      "title": "Inquiry Regarding Organization of CRUD Operations in Flask-RESTx",
+      "slug": "inquiry-regarding-organization-of-crud-operations-in-flask-restx",
+      "content": "Hello,\r\n\r\nI've tested the example of the Todo API that you provided. It's structured using classes to define the API resources. However, I'm wondering if it's possible to write the code in a different way by grouping all CRUD operations into a single controller class called `TodoController`.\r\n\r\n## Here's the initial example I retrieved from Flask-RESTx documentation:\r\n\r\n```py\r\nfrom flask import Flask\r\nfrom flask_restx import Api, Resource, fields\r\nfrom werkzeug.middleware.proxy_fix import ProxyFix\r\n\r\napp = Flask(__name__)\r\napp.wsgi_app = ProxyFix(app.wsgi_app)\r\napi = Api(\r\n    app,\r\n    version=\"1.0\",\r\n    title=\"TodoMVC API\",\r\n    description=\"A simple TodoMVC API\",\r\n)\r\n\r\nns = api.namespace(\"todos\", description=\"TODO operations\")\r\n\r\ntodo = api.model(\r\n    \"Todo\",\r\n    {\r\n        \"id\": fields.Integer(readonly=True, description=\"The task unique identifier\"),\r\n        \"task\": fields.String(required=True, description=\"The task details\"),\r\n    },\r\n)\r\n\r\n\r\nclass TodoDAO:\r\n    def __init__(self):\r\n        self.counter = 0\r\n        self.todos = []\r\n\r\n    def get(self, id):\r\n        for todo in self.todos:\r\n            if todo[\"id\"] == id:\r\n                return todo\r\n        api.abort(404, f\"Todo {id} doesn't exist\")\r\n\r\n    def create(self, data):\r\n        todo = data\r\n        todo[\"id\"] = self.counter = self.counter + 1\r\n        self.todos.append(todo)\r\n        return todo\r\n\r\n    def update(self, id, data):\r\n        todo = self.get(id)\r\n        todo.update(data)\r\n        return todo\r\n\r\n    def delete(self, id):\r\n        todo = self.get(id)\r\n        self.todos.remove(todo)\r\n\r\n\r\nDAO = TodoDAO()\r\nDAO.create({\"task\": \"Build an API\"})\r\nDAO.create({\"task\": \"?????\"})\r\nDAO.create({\"task\": \"profit!\"})\r\n\r\n\r\n@ns.route(\"/\")\r\nclass TodoList(Resource):\r\n    \"\"\"Shows a list of all todos, and lets you POST to add new tasks\"\"\"\r\n\r\n    @ns.doc(\"list_todos\")\r\n    @ns.marshal_list_with(todo)\r\n    def get(self):\r\n        \"\"\"List all tasks\"\"\"\r\n        return DAO.todos\r\n\r\n    @ns.doc(\"create_todo\")\r\n    @ns.expect(todo)\r\n    @ns.marshal_with(todo, code=201)\r\n    def post(self):\r\n        \"\"\"Create a new task\"\"\"\r\n        return DAO.create(api.payload), 201\r\n\r\n\r\n@ns.route(\"/<int:id>\")\r\n@ns.response(404, \"Todo not found\")\r\n@ns.param(\"id\", \"The task identifier\")\r\nclass Todo(Resource):\r\n    \"\"\"Show a single todo item and lets you delete them\"\"\"\r\n\r\n    @ns.doc(\"get_todo\")\r\n    @ns.marshal_with(todo)\r\n    def get(self, id):\r\n        \"\"\"Fetch a given resource\"\"\"\r\n        return DAO.get(id)\r\n\r\n    @ns.doc(\"delete_todo\")\r\n    @ns.response(204, \"Todo deleted\")\r\n    def delete(self, id):\r\n        \"\"\"Delete a task given its identifier\"\"\"\r\n        DAO.delete(id)\r\n        return \"\", 204\r\n\r\n    @ns.expect(todo)\r\n    @ns.marshal_with(todo)\r\n    def put(self, id):\r\n        \"\"\"Update a task given its identifier\"\"\"\r\n        return DAO.update(id, api.payload)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    app.run(debug=True)\r\n```\r\n\r\nAnd here's the reorganized version with the TodoController class:\r\n\r\n```py\r\nfrom flask import Flask\r\nfrom flask_restx import Api, Resource, fields\r\nfrom werkzeug.middleware.proxy_fix import ProxyFix\r\n\r\napp = Flask(__name__)\r\napp.wsgi_app = ProxyFix(app.wsgi_app)\r\napi = Api(\r\n    app,\r\n    version=\"1.0\",\r\n    title=\"TodoMVC API\",\r\n    description=\"A simple TodoMVC API\",\r\n)\r\n\r\nns = api.namespace(\"todos\", description=\"TODO operations\")\r\n\r\ntodo = api.model(\r\n    \"Todo\",\r\n    {\r\n        \"id\": fields.Integer(readonly=True, description=\"The task unique identifier\"),\r\n        \"task\": fields.String(required=True, description=\"The task details\"),\r\n    },\r\n)\r\n\r\n\r\nclass TodoDAO:\r\n    def __init__(self):\r\n        self.counter = 0\r\n        self.todos = []\r\n\r\n    def get(self, id):\r\n        for todo in self.todos:\r\n            if todo[\"id\"] == id:\r\n                return todo\r\n        api.abort(404, f\"Todo {id} doesn't exist\")\r\n\r\n    def create(self, data):\r\n        todo = data\r\n        todo[\"id\"] = self.counter = self.counter + 1\r\n        self.todos.append(todo)\r\n        return todo\r\n\r\n    def update(self, id, data):\r\n        todo = self.get(id)\r\n        todo.update(data)\r\n        return todo\r\n\r\n    def delete(self, id):\r\n        todo = self.get(id)\r\n        self.todos.remove(todo)\r\n\r\n\r\nDAO = TodoDAO()\r\nDAO.create({\"task\": \"Build an API\"})\r\nDAO.create({\"task\": \"?????\"})\r\nDAO.create({\"task\": \"profit!\"})\r\n\r\n\r\n@ns.route(\"/\")\r\nclass TodoController(Resource):\r\n    \r\n    @ns.doc(\"list_todos\")\r\n    @ns.marshal_list_with(todo)\r\n    @ns.get('')\r\n    def getTodos(self):\r\n        \"\"\"List all tasks\"\"\"\r\n        return DAO.todos\r\n\r\n    @ns.doc(\"create_todo\")\r\n    @ns.expect(todo)\r\n    @ns.marshal_with(todo, code=201)\r\n    @ns.post('')\r\n    def createTodo(self):\r\n        \"\"\"Create a new task\"\"\"\r\n        return DAO.create(api.payload), 201\r\n\r\n    @ns.doc(\"get_todo\")\r\n    @ns.marshal_with(todo)\r\n    @ns.get('/<int:id>')\r\n    def getTodo(self, id):\r\n        \"\"\"Fetch a given resource\"\"\"\r\n        return DAO.get(id)\r\n    \r\n    @ns.doc(\"delete_todo\")\r\n    @ns.response(204, \"Todo deleted\")\r\n    @ns.delete('/<int:id>')\r\n    def deleteTodo(self, id):\r\n        \"\"\"Delete a task given its identifier\"\"\"\r\n        DAO.delete(id)\r\n        return \"\", 204\r\n    \r\n    @ns.doc(\"update_todo\")\r\n    @ns.expect(todo)\r\n    @ns.marshal_with(todo)\r\n    @ns.put('/<int:id>')\r\n    def updateTodo(self, id):\r\n        \"\"\"Update a task given its identifier\"\"\"\r\n        return DAO.update(id, api.payload)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    app.run(debug=True)\r\n```\r\n\r\nIs it possible to adopt this structure to manage CRUD operations in a more concise and organized manner? Additionally, will Flask-RESTx support this type of structure in the future?\r\n\r\nThank you.",
+      "tags": [5]
+    }
+  },
+  {
+    "model": "issues.issue",
+    "pk": 3,
+    "fields": {
+      "created": "2024-05-03T12:30:21.232Z",
+      "updated": "2024-05-03T12:30:21.232Z",
+      "title": "Clone the Twitter Frontend with React TS",
+      "slug": "clone-the-twitter-frontend-with-react-ts",
+      "content": "# Clone the Twitter Frontend with React TS\r\n\r\nThis repository contains the frontend source code of the Twitter clone project. I used React, TypeScript and Redux to build the user interface of the application.\r\n\r\n## Startup\r\n\r\n### Prerequisites\r\n\r\n- Nodejs\r\n- Git\r\n\r\n### Installation\r\n\r\n#### 1. Clone the git repository\r\n\r\nIf you have `Git` on your computer, use the commands below, otherwise just download the project.\r\n\r\n```bash\r\ngit clone https://github.com/Macktireh/clone-twitter-frontend.git clone-twitter-backend\r\n```\r\n\r\n```bash\r\ncd clone-twitter-backend\r\n```\r\n\r\n```bash\r\nnpm install\r\n```\r\n\r\n```bash\r\nnpm start\r\n```",
+      "tags": []
+    }
+  },
+  {
+    "model": "issues.issue",
+    "pk": 5,
+    "fields": {
+      "created": "2024-05-03T22:54:57.208Z",
+      "updated": "2024-05-04T14:29:10.212Z",
+      "title": "EasyEatsOnline is an online food service project based on Flask and Flask-RESTx",
+      "slug": "easyeatsonline-is-an-online-food-service-project-based-on-flask-and-flask-restx",
+      "content": "# EasyEatsOnline\n\nEasyEatsOnline is an online food service platform built with Flask and Flask-RESTx. It offers a user-friendly and streamlined culinary experience, leveraging a modular architecture inspired by Spring Boot. PostgreSQL is utilized as the primary database for secure and efficient data storage.\n\n\n## Features\n\n### User Authentication\n\n- Signup: Users can create accounts to access the platform.\n- Login: Secure user login for authenticated sessions.\n- Token Refresh: Ability to refresh authentication tokens.\n\n### Shopping Cart\n\n- Add to Cart: Users can add products to their shopping cart.\n- Delete from Cart: Remove items from the shopping cart.\n- Retrieve Cart: View the current state of the shopping cart.\n\n### Product Management\n\n- List Products: Retrieve a list of available products.\n- Create Product: Add new products to the platform.\n- Update Product: Modify existing product details.\n- Delete Product: Remove products from the system.\n\n### Category Management\n\n- List Categories: Retrieve a list of available product categories.\n- Create Category: Add new categories.\n- Update Category: Modify existing category details.\n- Delete Category: Remove categories from the system.\n\n### Order Management\n\n- List Orders: View a list of placed orders.\n- Update Order Quantity: Modify the quantity of products in an order.\n\n### User Management\n- List Users: Retrieve a list of registered users.\n- Update Current User: Modify details of the currently authenticated user.\n\n### API Documentation\n\n- Swagger UI: Access detailed API documentation for developers at http://localhost:5000/api/docs.\n- Swagger specifications: Go to Swagger specifications at http://localhost:5000/api/swagger.json.\n\n\n## Prerequisites\n\nEnsure you have the following installed:\n\n- Python 3.10 or later\n- Poetry: Dependency management tool\n- Dependencies listed in `pyproject.toml`\n- Docker (optional): For containerization\n- SQLite (default) or PostgreSQL: Database for data storage\n\n\n## Installation\n\n### 1. Clone the repository:\n```bash\ngit clone https://github.com/Macktireh/EasyEatsOnlineApi.git\n```\n\n```bash\ncd EasyEatsOnlineApi\n```\n\n### 2. Copy the `.env.example` file to `.env` and configure the environment variables as needed.\n\n### 3. With Docker\n\n1. Build and run the Docker containers:\n```bash\ndocker-compose up --build\n```\n\n### 4. Without Docker\n\n1. Create a virtual environment and install dependencies:\n```bash\npoetry install\n```\n\n2. Apply database migrations:\n```bash\npoetry run flask db upgrade\n```\n\n3. Run the application:\n```bash\npoetry run flask run\n```\n\n### 5. Access the Application\n\nVisit [http://localhost:5000](http://localhost:5000) in your web browser.\n\n\n## Testing\n\nRun tests with the following command:\n\n```bash\npoetry run flask test\n```\n\n\n## Postman Collection\n\nGenerate the Postman collection with the following command:\n\n```bash\npoetry run flask postman --export=True\n```\n\nThe collection will be available in the postman directory.\n\n\n## License\n\nThis project is licensed under the [MIT License](LICENSE).",
+      "tags": []
+    }
+  },
+  {
+    "model": "issues.issue",
+    "pk": 6,
+    "fields": {
+      "created": "2024-05-03T23:00:02.500Z",
+      "updated": "2024-05-03T23:01:19.159Z",
+      "title": "Mackdin is a social networking project I created using Python with Django and a bit of React.",
+      "slug": "mackdin-is-a-social-networking-project-i-created-using-python-with-django-and-a-bit-of-react",
+      "content": "# Mackdin\r\n\r\nMackdin is a social networking project I created using Python with Django and a bit of React. It's a customized clone of LinkedIn.\r\n\r\n<img src=\"https://raw.githubusercontent.com/Macktireh/mackdin/main/static/home/img/mackdin_1.png\" width=500 />\r\n \r\n![](https://raw.githubusercontent.com/Macktireh/mackdin/main/static/home/img/mackdin_1.png\r\n)\r\n![](https://github.com/Macktireh/mackdin/raw/main/static/home/img/mackdin_2.png)\r\n![](https://github.com/Macktireh/mackdin/raw/main/static/home/img/mackdin_3.png)\r\n![](https://github.com/Macktireh/mackdin/raw/main/static/home/img/mackdin_4.png)\r\n\r\n\r\n**Here are the technologies I used:**\r\n\r\n- Python\r\n- Django\r\n- PostgreSQL\r\n- JavaScript\r\n- React\r\n- SASS\r\n- Cloudinary\r\n\r\n## Installation\r\n\r\n### 1. Prerequisites\r\n\r\nPython 3.10+, NodeJS and Git.\r\n\r\n### 2. Clone project\r\n\r\nOpen a terminal and run the following commands:\r\n\r\n```bash\r\ngit clone https://github.com/Macktireh/mackdin.git\r\ncd mackdin\r\n```\r\n\r\n### 3. Create and activate the virtual environment\r\n\r\nCreate the virtual environment:\r\n\r\n```bash\r\npython -m venv .venv\r\n```\r\n\r\nActivate the virtual environment :\r\n\r\n**_For Windows :_**\r\n\r\n```bash\r\n.venv\\Scripts\\activate\r\n```\r\n\r\n**_For Linux and Mac os :_**\r\n\r\n```bash\r\nsource .venv/bin/activate\r\n```\r\n\r\n### 4. Installing dependencies\r\n\r\n```bash\r\npip install -r requirements.txt\r\n```\r\n\r\n### 5. Setting environment variables\r\n\r\nRename the .env.example file to .env and enter your personal information.\r\nThen apply the migrations :\r\n\r\n```bash\r\npython manage.py migrate\r\n```\r\n\r\nThen launch the development server :\r\n\r\n```bash\r\npython manage.py runserver\r\n```\r\n\r\nGo to http://127.0.0.1:8000 in a web browser.",
+      "tags": []
+    }
+  },
+  {
+    "model": "issues.issue",
+    "pk": 7,
+    "fields": {
+      "created": "2024-05-03T23:19:51.009Z",
+      "updated": "2024-05-03T23:19:51.009Z",
+      "title": "This Spring Boot Todolist application empowers users to manage their tasks and to-do lists",
+      "slug": "this-spring-boot-todolist-application-empowers-users-to-manage-their-tasks-and-to-do-lists",
+      "content": "# Todolist Application with Spring Boot\n\n![Java](https://img.shields.io/badge/Java-17-red)\n![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1.4-green)\n\nThis is a simple Todolist application built with Spring Boot. It allows users to create, manage, and organize their tasks and to-do lists.\n\n## Features\n\n- Create, Read, Update, and Delete tasks.\n- Organize tasks into different lists.\n- Mark tasks as completed or pending.\n- Set due dates for tasks.\n\n## Prerequisites\n\nBefore you begin, ensure you have met the following requirements:\n\n- Java 17 or higher installed.\n- Maven for building the project.\n- An IDE (Eclipse, IntelliJ IDEA, VSCode, etc.) or a code editor of your choice. Personally, I use VSCode.\n- Java and [Spring Boot](https://spring.io/projects/spring-boot) knowledge.\n\n## Getting Started\n\nTo get started with this project, follow these steps:\n\n### 1. Clone the repository:\n\n```bash\ngit clone https://github.com/Macktireh/SpringBootTodolist.git todolist\n```\n\n### 2. Navigate to the project directory:\n\n```bash\ncd todolist\n```\n\n### 3. Build the project using Maven:\n\n```bash\nmvn clean install\n```\n\n### 4. Create Database:\n\nif docker and docker-compose is installed on your computer, execute the following command. If not, install docker to run the command or install a relational database (PostgreSQL, MySQL ...etc).\n\n```bash\ndocker-compose up -d\n```\n\n### 5. Run the application:\n\n```bash\nmvn spring-boot:run\n```\n\n### 6. Open your web browser and access the application at http://localhost:8080.\n\n## Data Models\n\n### Database Schema\n\n![Database Schema](https://github.com/Macktireh/SpringBootTodolist/raw/main/diagram.png)\n\nThe application uses a database to store task-related information. Below is the schema of the database used in the Todolist application:\n\n#### TaskList\n\n- `id`: A unique identifier for the task list.\n- `name`: The name of the task list.\n- `createdAt`: The date when the task list was created.\n\n#### Task\n\n- `id`: A unique identifier for the task.\n- `taskListID`: A reference to the task list to which the task belongs.\n- `title`: The title or name of the task.\n- `description`: A textual description of the task.\n- `dueDate`: An optional due date for the task.\n- `status`: The status of the task, which can be `OPEN`, `IN_PROGRESS`, or `COMPLETED`.\n- `priority`: The priority of the task, which can be `LOW`, `MEDIUM`, or `HIGH`.\n- `createdAt`: The date when the task was created.\n- `updatedAt`: The date when the task was last updated.\n\n#### Label\n\n- `id`: A unique identifier for the label.\n- `name`: The name of the label.\n- `color`: The color associated with the label.\n- `createdAt`: The date when the label was created.\n\n#### Task_Label\n\nThis is a join table that links tasks to labels. It contains two foreign keys, `TASK_ID` and `LABEL_ID`, to create a many-to-many relationship between tasks and labels.\n\nYou can use this schema as a reference to understand how data is structured in the database for the Todolist application.\n\n### Enums\n\nThe application also uses two ENUM types: `PRIORITY` and `STATUS`.\n\n- `PRIORITY`: Represents the priority levels of tasks (`LOW`, `MEDIUM`, `HIGH`).\n- `STATUS`: Represents the status of tasks (`OPEN`, `IN_PROGRESS`, `COMPLETED`).\n\nThese ENUM types are used to define valid values for the priority and status fields in the Task table.\n\n## Configuration\n\nYou can configure the application by modifying the application.properties file. You may need to set up a database connection and other properties as per your requirements.\n\n## License\n\nThis project is licensed under the MIT License - see the LICENSE file for details.",
+      "tags": []
+    }
+  }
+]
