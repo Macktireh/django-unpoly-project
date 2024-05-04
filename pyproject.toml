@@ -13,12 +13,15 @@ dependencies = [
     "django-colorfield>=0.11.0",
     "django-compressor>=4.4",
     "django-unfold>=0.22.0",
+    "martor>=1.6.44",
+    "django-mdeditor>=0.1.20",
 ]
 
 
 [tool.pdm.dev-dependencies]
 dev = [
     "ruff>=0.4.2",
+    "django-browser-reload>=1.12.1",
 ]
 
 
@@ -31,10 +34,10 @@ newapp = "python manage.py startapp"
 makemigrations = "python manage.py makemigrations"
 migrate = "python manage.py migrate"
 start = "python manage.py runserver"
-createsuperuser = "python manage.py createsuperuser"
-qcluster = "python manage.py qcluster"
-qmonitor = "python manage.py qmonitor"
-qinfo = "python manage.py qinfo"
+createsuperuser = "python manage.py createsuperuser --email=admin@example.com --first_name=Admin --last_name=AD"
+collectstatic = "python manage.py collectstatic"
+loaddata = "python manage.py loaddata"
+dumpdata = "python manage.py dumpdata"
 tailwind = "npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch"
 
 mmm = {composite = ["makemigrations", "migrate"]}
