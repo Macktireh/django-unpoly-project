@@ -8,12 +8,12 @@
 {% block content %}
   <form method="post" action="{{ action }}" class="w-11/12 flex flex-col items-center gap-6" up-submit up-target=".root">
     {% csrf_token %}
+    {{ form.media }}
     <div class="w-11/12 flex flex-col items-start justify-start gap-2 px-2 text-white">
       {{ form.title.label_tag }}
       {{ form.title }}
     </div>
     <div class="w-11/12 flex flex-col items-start justify-start gap-2 px-2 text-white">
-      {{ form.media }}
       {{ form.content.label_tag }}
       {{ form.content }}
     </div>

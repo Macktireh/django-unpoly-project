@@ -9,7 +9,6 @@
 {% block content %}
   <h1 class="text-3xl my-2" style="color: skyblue; margin-bottom: 2rem;">{{ issue.title }}</h1>
   <div class="w-4/5 dark:text-white markdown-p">{{ issue.content|safe_markdown }}</div>
-  <script>hljs.highlightAll();</script>
 {% endblock %}
 
 {% block js %}
