@@ -13,16 +13,14 @@
       {% endblock %}
     </title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+    <link href="{% static 'mdeditor/css/editormd.css' %}" media="all" rel="stylesheet">
     {% compress css %}
     <link rel="stylesheet" href="{% static 'src/output.css' %}" />
-    {% endcompress %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    
-    <!-- and it's easy to individually load additional languages -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
     <link rel="stylesheet" href="{% static 'src/dracula.css' %}" />
+    {% endcompress %}
+    
   </head>
 
   <body class="dark bg-gray-50/98 dark:bg-gray-800/95">
@@ -43,15 +41,19 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
-    {% comment %} <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script> {% endcomment %}
-    {% comment %} <script>
-      hljs.initHighlightingOnLoad()
-    </script> {% endcomment %}
+    <script src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+    <script src="{% static 'mdeditor/languages/en.js' %}"></script>
     <script>
-      hljs.highlightAll();
+      hljs.highlightAll()
+      up.compiler('pre > code', (e) => {
+        hljs.highlightAll()
+      })
     </script>
-    
+
     {% block js %}
 
     {% endblock %}
