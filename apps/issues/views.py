@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 
@@ -30,14 +30,14 @@ class CreateIssueView(View):
 
 class DetailIssueView(View):
     def get(self, request: HttpRequest, slug: str) -> HttpResponse:
-        issue = Issue.objects.get(slug=slug)
+        issue = get_object_or_404(Issue, slug=slug)
         context = {"issue": issue}
         return render(request=request, template_name="issues/detail.html", context=context)
 
 
 class UpdateIssueView(View):
     def get(self, request: HttpRequest, slug: str) -> HttpResponse:
-        issue = Issue.objects.get(slug=slug)
+        issue = get_object_or_404(Issue, slug=slug)
         context = {
             "form": IssueForm(instance=issue),
             "action": reverse("issues:update", kwargs={"slug": slug}),
@@ -56,6 +56,6 @@ class UpdateIssueView(View):
 
 class DeleteIssueView(View):
     def get(self, request: HttpRequest, slug: str) -> HttpResponse:
-        issue = Issue.objects.get(slug=slug)
+        issue = get_object_or_404(Issue, slug=slug)
         issue.delete()
         return redirect(reverse("issues:index"))
