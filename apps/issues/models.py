@@ -2,6 +2,7 @@ from random import choice
 from typing import override
 
 from colorfield.fields import ColorField
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -40,9 +41,9 @@ class Tag(TimestampMixin):
 
 
 class Issue(TimestampMixin):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, validators=[MinLengthValidator(6)])
     slug = models.SlugField(unique=True, max_length=255, db_index=True)
-    content = MDTextField(null=True, blank=True)
+    content = MDTextField(null=True, blank=True, validators=[MinLengthValidator(10)])
     tags = models.ManyToManyField(to=Tag, related_name="issues", db_table="issues_tags", blank=True)
 
     @override

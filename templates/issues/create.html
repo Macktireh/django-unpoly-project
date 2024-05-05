@@ -10,6 +10,7 @@
     {% csrf_token %}
     {{ form.media }}
     <div class="w-11/12 flex flex-col items-start justify-start gap-2 px-2 text-white">
+      <div>{{ form.errors }}</div>
       {{ form.title.label_tag }}
       {{ form.title }}
     </div>
