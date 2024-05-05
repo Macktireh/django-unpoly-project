@@ -9,7 +9,7 @@
 
   {% include 'partials/search_new.html' %}
 
-  <div class="w-full p-4 flex flex-col gap-1">
+  <div id="searchResults" class="w-full p-4 flex flex-col gap-1">
     {% for issue in issues %}
       {% include 'partials/issue_card.html' %}
     {% endfor %}

@@ -10,7 +10,8 @@ from apps.issues.models import Issue
 
 class IndexView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        issues = Issue.objects.all()
+        query = request.GET.get('q')
+        issues = Issue.objects.filter(title__icontains=query) if query else Issue.objects.all()
         context = {"issues": issues}
         return render(request=request, template_name="issues/index.html", context=context)
 
