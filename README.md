@@ -1,5 +1,14 @@
 # Django + Unpoly = ❤️🚀
 
+### Description
+
+Django + Unpoly is a project I created using [PDM](https://pdm-project.org/) and [Django](https://www.djangoproject.com/) and [Unpoly](https://unpoly.com/).
+
+### Prerequisites
+
+- Python 3.12+
+- [PDM](https://pdm-project.org/)
+
 ### Installation
 
 ```bash
