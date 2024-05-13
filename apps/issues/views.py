@@ -10,7 +10,7 @@ from apps.issues.models import Issue
 
 class IndexView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        query = request.GET.get('q')
+        query = request.GET.get("q")
         issues = Issue.objects.filter(title__icontains=query) if query else Issue.objects.all()
         context = {"issues": issues}
         return render(request=request, template_name="issues/index.html", context=context)
@@ -25,8 +25,9 @@ class CreateIssueView(View):
         form = IssueForm(data=request.POST or None)
         if form.is_valid():
             form.save()
-
-        return redirect(reverse("issues:index"))
+            return redirect(reverse("issues:index"))
+        context = {"form": form, "action": reverse("issues:create"), "viewname": "Create"}
+        return render(request=request, template_name="issues/create.html", context=context)
 
 
 class DetailIssueView(View):
@@ -51,8 +52,9 @@ class UpdateIssueView(View):
         form = IssueForm(data=request.POST or None, instance=issue)
         if form.is_valid():
             form.save()
-
-        return redirect(reverse("issues:index"))
+            return redirect(reverse("issues:index"))
+        context = {"form": form, "action": reverse("issues:update", kwargs={"slug": slug}), "viewname": "Update"}
+        return render(request=request, template_name="issues/create.html", context=context)
 
 
 class DeleteIssueView(View):

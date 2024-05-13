@@ -1,0 +1,14 @@
+{% for field in form %}
+  <br />
+  <div class="w-full flex flex-col items-start justify-start text-white">
+    {{ field.label_tag }}
+    {{ field }}
+    {% if field.errors %}
+      <div class="w-11/12 flex flex-col items-start justify-start gap-2 px-2 text-white">
+        {% for error in field.errors %}
+          <p class="text-red-500" style="font-style: italic; color: orangered !important;">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}

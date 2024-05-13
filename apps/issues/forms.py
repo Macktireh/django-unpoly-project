@@ -6,7 +6,7 @@ from apps.issues.models import Issue
 class IssueForm(ModelForm):
     class Meta:
         model = Issue
-        fields = ["title", "content", "tags"]
+        fields = ["title", "content"]
         widgets = {
             "title": TextInput(
                 attrs={
