@@ -26,7 +26,7 @@ pdm install
 ## Migrate Database
 
 ```bash
-pdm run migrate
+pdm migrate
 ```
 
 ## Load Data
@@ -38,5 +38,5 @@ pdm run loaddata issues.json
 ## Run Server
 
 ```bash
-pdm run start
+pdm start
 ```
