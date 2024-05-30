@@ -8,8 +8,6 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from mdeditor.fields import MDTextField
 
-# from martor.models import MartorField
-
 
 def generate_hex_color() -> str:
     hex_chars = "0123456789ABCDEF"
